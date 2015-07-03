@@ -32,6 +32,8 @@ public class DisplayMessageActivity extends Activity {
             mediaPlayer.start();
         }
 
+
+
 	    // Set the text view as the activity layout
 	    setContentView(textView);
 	}
