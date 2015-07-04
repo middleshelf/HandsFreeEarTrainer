@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.util.Random;
 
 
 public class DisplayMessageActivity extends Activity {
@@ -70,16 +71,54 @@ public class DisplayMessageActivity extends Activity {
         ts.setTimeSignature(4, 4, TimeSignature.DEFAULT_METER, TimeSignature.DEFAULT_DIVISION);
 
         Tempo t = new Tempo();
-        t.setBpm(228);
+        t.setBpm(180);
 
         tempoTrack.insertEvent(ts);
         tempoTrack.insertEvent(t);
 
         // 2b. Track 1 will have some notes in it
-        for(int i = 0; i < 80; i++)
+        // Middle C is integer 60
+        int[] majorPentatoic = {60,62,64,67,69,72};
+        int[] minorPentatoic = {60,63,65,67,70,72};
+        int[] major = {60,62,64,65,67,69,71,72};
+        int[] melodicMinor = {60,62,63,65,67,68,70,72};
+        int[] harmonicMinor = {60,62,63,65,67,69,71,72};
+        int[] chromatic = {60,61,62,63,64,65,66,67,68,69,70,71,72};
+
+        int[] melody = {};
+        int melodyLength = 7; //will be set by interface
+        int[] randMelody = new int[melodyLength];
+        Random generator = new Random();
+
+        if (message.equals("mp")) {
+            melody = majorPentatoic.clone();
+        } else if (message.equals("mip")) {
+            melody = minorPentatoic.clone();
+        } else if (message.equals("m")) {
+            melody = major.clone();
+        } else if (message.equals("mm")) {
+            melody = melodicMinor.clone();
+        } else if (message.equals("hm")) {
+            melody = harmonicMinor.clone();
+        } else {
+            melody = chromatic.clone();
+        }
+
+        for (int i = 0; i < melodyLength; i++){
+            if (i==0 ){
+                randMelody[i] = 60;
+            } else {
+                randMelody[i] = melody[generator.nextInt(melody.length)];
+            }
+        }
+
+        melody = randMelody.clone();
+
+
+        for(int i = 0; i < melody.length; i++)
         {
-            int channel = 0, pitch = 1 + i, velocity = 100;
-            NoteOn on = new NoteOn(i * 480, channel, pitch, velocity);
+            int channel = 0, pitch = melody[i], velocity = 100;
+            NoteOn on = new NoteOn(480 * i, channel, pitch, velocity);
             NoteOff off = new NoteOff(i * 480 + 120, channel, pitch, 0);
 
             noteTrack.insertEvent(on);
@@ -87,7 +126,7 @@ public class DisplayMessageActivity extends Activity {
 
             // There is also a utility function for notes that you should use
             // instead of the above.
-            noteTrack.insertNote(channel, pitch + 2, velocity, i * 480, 120);
+            noteTrack.insertNote(channel, pitch, velocity, i * 480, 120);
         }
 
         // It's best not to manually insert EndOfTrack events; MidiTrack will
