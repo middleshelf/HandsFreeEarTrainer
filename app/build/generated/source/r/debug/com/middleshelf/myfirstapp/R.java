@@ -37,27 +37,32 @@ public final class R {
         public static final int timepicker_up_selected=0x7f020013;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0010;
-        public static final int add_column=0x7f0a0014;
-        public static final int button_send=0x7f0a0009;
-        public static final int chromaticbutton=0x7f0a0004;
-        public static final int decrement=0x7f0a000f;
-        public static final int edit_message=0x7f0a0008;
-        public static final int hmbutton=0x7f0a0005;
-        public static final int increment=0x7f0a000d;
-        public static final int majorbutton=0x7f0a0002;
-        public static final int mipbutton=0x7f0a0001;
-        public static final int mmbutton=0x7f0a0003;
-        public static final int mpbutton=0x7f0a0000;
-        public static final int path=0x7f0a000b;
-        public static final int pref_num_picker=0x7f0a000a;
-        public static final int preferences=0x7f0a0013;
-        public static final int rowtext=0x7f0a000c;
-        public static final int select_sample=0x7f0a0011;
-        public static final int tempoBar=0x7f0a0007;
-        public static final int textView=0x7f0a0006;
-        public static final int timepicker_input=0x7f0a000e;
-        public static final int toggle_sequencer=0x7f0a0012;
+        public static final int action_settings=0x7f0a0015;
+        public static final int add_column=0x7f0a0019;
+        public static final int answerText=0x7f0a0002;
+        public static final int button_send=0x7f0a000e;
+        public static final int chromaticbutton=0x7f0a0007;
+        public static final int decrement=0x7f0a0014;
+        public static final int edit_message=0x7f0a000d;
+        public static final int hmbutton=0x7f0a0008;
+        public static final int increment=0x7f0a0012;
+        public static final int majorbutton=0x7f0a0005;
+        public static final int melodyLengthSeekBar=0x7f0a000c;
+        public static final int melodyLengthTextView=0x7f0a000b;
+        public static final int mipbutton=0x7f0a0004;
+        public static final int mmbutton=0x7f0a0006;
+        public static final int mpbutton=0x7f0a0003;
+        public static final int path=0x7f0a0010;
+        public static final int playbutton=0x7f0a0000;
+        public static final int pref_num_picker=0x7f0a000f;
+        public static final int preferences=0x7f0a0018;
+        public static final int rowtext=0x7f0a0011;
+        public static final int select_sample=0x7f0a0016;
+        public static final int showanswerbutton=0x7f0a0001;
+        public static final int tempoBar=0x7f0a000a;
+        public static final int textView=0x7f0a0009;
+        public static final int timepicker_input=0x7f0a0013;
+        public static final int toggle_sequencer=0x7f0a0017;
     }
     public static final class layout {
         public static final int activity_display_message=0x7f030000;

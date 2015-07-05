@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.view.View;
+
 import org.androidaalto.soundfuse.sequencer.Sequencer;
 import com.leff.midi.*;
 import com.leff.midi.event.NoteOff;
@@ -30,20 +32,26 @@ public class DisplayMessageActivity extends Activity {
     PlaySound playSound;
     private String file = "exampleout.mid";
     private MediaPlayer mediaPlayer = new MediaPlayer();
+    private String answer;
+    private TextView answerText = null;
+    private FileDescriptor fileDescriptor = new FileDescriptor();
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_message);
 		// Get the message from the intent
 	    Intent intent = getIntent();
 	    String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         String scale = intent.getStringExtra(MainActivity.SCALE);
+        String tempo = intent.getStringExtra(MainActivity.TEMPO);
+        String melodyLength = intent.getStringExtra(MainActivity.MELODY_LENGTH);
 
 	    // Create the text view
-	    TextView textView = new TextView(this);
-	    textView.setTextSize(40);
-	    textView.setText(message);
+        answerText = (TextView) findViewById(R.id.answerText);
+        answerText.setTextSize(30);
+	    //textView.setText(message);
 
         //Play ogg files
         /*sequencer = new Sequencer(this, 4, 8);
@@ -72,7 +80,7 @@ public class DisplayMessageActivity extends Activity {
         ts.setTimeSignature(4, 4, TimeSignature.DEFAULT_METER, TimeSignature.DEFAULT_DIVISION);
 
         Tempo t = new Tempo();
-        t.setBpm(180);
+        t.setBpm(Integer.parseInt(tempo));
 
         tempoTrack.insertEvent(ts);
         tempoTrack.insertEvent(t);
@@ -87,9 +95,11 @@ public class DisplayMessageActivity extends Activity {
         int[] chromatic = {60,61,62,63,64,65,66,67,68,69,70,71,72};
 
         int[] melody = {};
-        int melodyLength = 7; //will be set by interface
-        int[] randMelody = new int[melodyLength];
+        int mLength = Integer.parseInt(melodyLength);
+        int[] randMelody = new int[mLength];
         Random generator = new Random();
+
+        //Determine which button was pressed to play corresponding melody notes
         try {
             if (scale.equals("Major Pentatonic")) {
                 melody = majorPentatoic.clone();
@@ -110,16 +120,18 @@ public class DisplayMessageActivity extends Activity {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < melodyLength; i++){
+        //Randomize melody notes
+        for (int i = 0; i < mLength; i++){
             if (i==0 ){
                 randMelody[i] = 60;
+                answer = getNoteName(randMelody[i]) + " ";
             } else {
                 randMelody[i] = melody[generator.nextInt(melody.length)];
+                answer = answer + (getNoteName(randMelody[i])) + " ";
             }
         }
 
         melody = randMelody.clone();
-
 
         for(int i = 0; i < melody.length; i++)
         {
@@ -157,11 +169,33 @@ public class DisplayMessageActivity extends Activity {
 
 
         //Play midi file
+        playMidiFile();
+
+	}
+
+    public void replayMelody(View view) {
+            playMidiFile();
+    }
+
+    // need to set answer to textView
+    public void showAnswer(View view){
+
+        //show answer
+        try{
+            answerText.setText(answer);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private void playMidiFile(){
+        //Play midi file
         try {
             String filename = getFilesDir() + "/" + file;
             File midifile = new File(filename);
             FileInputStream inputStream = new FileInputStream(midifile);
-            FileDescriptor fileDescriptor = inputStream.getFD();
+            fileDescriptor = inputStream.getFD();
             //mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.reset();
             mediaPlayer.setDataSource(fileDescriptor);
@@ -171,10 +205,57 @@ public class DisplayMessageActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-	    // Set the text view as the activity layout
-	    setContentView(textView);
-	}
+    private String getNoteName(int note){
+        String noteName;
+
+        switch(note){
+            case(60):
+                noteName = "C";
+                break;
+            case(61):
+                noteName = "C#";
+                break;
+            case(62):
+                noteName = "D";
+                break;
+            case(63):
+                noteName = "Eb";
+                break;
+            case(64):
+                noteName = "E";
+                break;
+            case(65):
+                noteName = "F";
+                break;
+            case(66):
+                noteName = "F#";
+                break;
+            case(67):
+                noteName = "G";
+                break;
+            case(68):
+                noteName = "G#";
+                break;
+            case(69):
+                noteName = "A";
+                break;
+            case(70):
+                noteName = "Bb";
+                break;
+            case(71):
+                noteName = "B";
+                break;
+            case(72):
+                noteName = "C";
+                break;
+            default:
+                noteName = "C";
+        }
+
+        return noteName;
+    }
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
@@ -198,8 +279,15 @@ public class DisplayMessageActivity extends Activity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-            sequencer.stop();
-            mediaPlayer.stop();
+            try {
+                if(sequencer != null) {
+                    sequencer.stop();
+                } else if(mediaPlayer != null){
+                    mediaPlayer.stop();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}

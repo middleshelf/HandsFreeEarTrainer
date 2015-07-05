@@ -17,8 +17,12 @@ public class MainActivity extends Activity {
 	
 	public final static String EXTRA_MESSAGE = "com.middleshelf.myfirstapp.MESSAGE";
     public final static String SCALE = "com.middleshelf.myfirstapp.SCALE";
+    public final static String TEMPO = "com.middleshelf.myfirstapp.TEMPO";
+    public final static String MELODY_LENGTH = "com.middleshelf.myfirstapp.MELODY_LENGTH";
     private SeekBar tempoControl = null;
     private TextView textView = null;
+    private SeekBar melodyLengthSeekBar = null;
+    private TextView melodyLengthTextView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,38 +30,70 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         initializeVariables();
 
-        tempoControl = (SeekBar) findViewById(R.id.tempoBar);
-        textView = (TextView) findViewById(R.id.textView);
+        // Initialize the SeekBars with starting values
+        textView.setText("Tempo: " + tempoControl.getProgress());
+        melodyLengthTextView.setText("Melody Length: " + melodyLengthSeekBar.getProgress());
 
-        // Initialize the textview with '0'.
-        textView.setText("Covered: " + tempoControl.getProgress() + "/" + tempoControl.getMax());
         tempoControl.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             int progress = 0;
-
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
-                Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                textView.setText("Covered: " + progress + "/" + seekBar.getMax());
-                Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                textView.setText("Tempo: " + progress);
+
+                //Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        melodyLengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                //Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                //Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                melodyLengthTextView.setText("Melody Length: " + progress);
+                //Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     // A private method to help us initialize our variables.
     private void initializeVariables() {
-        tempoControl = (SeekBar) findViewById(R.id.tempoBar);
-        textView = (TextView) findViewById(R.id.textView);
+        Intent intent = getIntent();
+        if(tempoControl == null) {
+            tempoControl = (SeekBar) findViewById(R.id.tempoBar);
+            //Attempt to load existing user values
+            //TODO: Need to find a way to make this work with a global variable
+            try {
+                tempoControl.setProgress(Integer.parseInt(intent.getStringExtra(TEMPO)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        } if(textView == null) {
+            textView = (TextView) findViewById(R.id.textView);
+        } if(melodyLengthSeekBar == null) {
+            melodyLengthSeekBar = (SeekBar) findViewById(R.id.melodyLengthSeekBar);
+        } if(melodyLengthTextView == null) {
+            melodyLengthTextView = (TextView) findViewById(R.id.melodyLengthTextView);
+        }
     }
 
     @Override
@@ -77,58 +113,45 @@ public class MainActivity extends Activity {
     	startActivity(intent);
     }
 
-    /** Called when the user clicks the Send button */
+    /** Called when the user clicks the Major Pentatonic button */
     public void startMajorPentatonicTest(View view) {
-        // Do something in response to button
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
         Button buttonClicked = (Button) findViewById(R.id.mpbutton);
-        String scale = buttonClicked.getText().toString();
-        intent.putExtra(SCALE, scale);
-        startActivity(intent);
+        getUserSelections(buttonClicked);
     }
-    /** Called when the user clicks the Send button */
+    /** Called when the user clicks the Minor Pentatonic button */
     public void startMinorPentatonicTest(View view) {
-        // Do something in response to button
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
         Button buttonClicked = (Button) findViewById(R.id.mipbutton);
-        String scale = buttonClicked.getText().toString();
-        intent.putExtra(SCALE, scale);
-        startActivity(intent);
+        getUserSelections(buttonClicked);
     }
-    /** Called when the user clicks the Send button */
+    /** Called when the user clicks the Major button */
     public void startMajorTest(View view) {
-        // Do something in response to button
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
         Button buttonClicked = (Button) findViewById(R.id.majorbutton);
-        String scale = buttonClicked.getText().toString();
-        intent.putExtra(SCALE, scale);
-        startActivity(intent);
+        getUserSelections(buttonClicked);
     }
-    /** Called when the user clicks the Send button */
+    /** Called when the user clicks the Melodic Minor button */
     public void startMelodicMinorTest(View view) {
-        // Do something in response to button
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
         Button buttonClicked = (Button) findViewById(R.id.mmbutton);
-        String scale = buttonClicked.getText().toString();
-        intent.putExtra(SCALE, scale);
-        startActivity(intent);
+        getUserSelections(buttonClicked);
     }
-    /** Called when the user clicks the Send button */
+    /** Called when the user clicks the Harmonic Minor button */
     public void startHarmonicMinorTest(View view) {
-        // Do something in response to button
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
         Button buttonClicked = (Button) findViewById(R.id.hmbutton);
-        String scale = buttonClicked.getText().toString();
-        intent.putExtra(SCALE, scale);
-        startActivity(intent);
+        getUserSelections(buttonClicked);
     }
-    /** Called when the user clicks the Send button */
+    /** Called when the user clicks the Chromatic button */
     public void startChromaticTest(View view) {
-        // Do something in response to button
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
         Button buttonClicked = (Button) findViewById(R.id.chromaticbutton);
-        String scale = buttonClicked.getText().toString();
+        getUserSelections(buttonClicked);
+    }
+
+    private void getUserSelections(Button selectedButton){
+        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        String scale = selectedButton.getText().toString();
         intent.putExtra(SCALE, scale);
+        String tempo = Integer.toString(tempoControl.getProgress());
+        intent.putExtra(TEMPO, tempo);
+        String melodyLength = Integer.toString(melodyLengthSeekBar.getProgress());
+        intent.putExtra(MELODY_LENGTH, melodyLength);
         startActivity(intent);
     }
 }
