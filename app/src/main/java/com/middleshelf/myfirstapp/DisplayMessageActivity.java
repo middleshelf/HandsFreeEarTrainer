@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View;
 
@@ -87,7 +88,6 @@ public class DisplayMessageActivity extends Activity {
 
         //Create Melody
         int[] melody = {};
-
 
         //Determine which button was pressed to play corresponding melody notes
         try {
@@ -251,6 +251,22 @@ public class DisplayMessageActivity extends Activity {
 
         return noteName;
     }
+
+    public void submitAnswer(View view){
+        EditText userAnswerText = (EditText) findViewById(R.id.submitAnswerText);
+        String userAnswer = userAnswerText.getText().toString();
+
+            //show correct
+            try{
+                if(userAnswer.trim().equals(answer.trim())) {
+                    answerText.setText("Correct!");
+                }else {
+                    answerText.setText("Try again");
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.

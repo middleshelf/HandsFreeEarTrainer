@@ -222,27 +222,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText android:id="@+id/edit_message"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/edit_message"
-            android:layout_column="0"
-            android:layout_span="5" />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_send"
-            android:onClick="sendMessage"
-            android:layout_column="0"
-            android:layout_span="5"
-            android:id="@+id/button_send" />
     </TableRow>
 
     <TableRow

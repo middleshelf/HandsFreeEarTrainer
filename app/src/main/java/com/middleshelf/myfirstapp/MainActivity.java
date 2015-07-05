@@ -14,8 +14,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
-	
-	public final static String EXTRA_MESSAGE = "com.middleshelf.myfirstapp.MESSAGE";
+
     public final static String SCALE = "com.middleshelf.myfirstapp.SCALE";
     public final static String TEMPO = "com.middleshelf.myfirstapp.TEMPO";
     public final static String MELODY_LENGTH = "com.middleshelf.myfirstapp.MELODY_LENGTH";
@@ -41,36 +40,29 @@ public class MainActivity extends Activity {
                 progress = progresValue;
                 //Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 //Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 textView.setText("Tempo: " + progress);
-
                 //Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
             }
         });
 
         melodyLengthSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             int progress = 0;
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
-                //Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                //Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 melodyLengthTextView.setText("Melody Length: " + progress);
-                //Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -102,16 +94,10 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
-    /** Called when the user clicks the Send button */
-    public void sendMessage(View view) {
-        // Do something in response to button
-    	Intent intent = new Intent(this, DisplayMessageActivity.class);
-    	EditText editText = (EditText) findViewById(R.id.edit_message);
-    	String message = editText.getText().toString();
-    	intent.putExtra(EXTRA_MESSAGE, message);
-    	startActivity(intent);
-    }
+
+    /*************************************************************
+     * Button Selection
+     ************************************************************/
 
     /** Called when the user clicks the Major Pentatonic button */
     public void startMajorPentatonicTest(View view) {
