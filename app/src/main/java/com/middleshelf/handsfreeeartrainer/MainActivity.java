@@ -1,23 +1,21 @@
-package com.middleshelf.myfirstapp;
+package com.middleshelf.handsfreeeartrainer;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 
-    public final static String SCALE = "com.middleshelf.myfirstapp.SCALE";
-    public final static String TEMPO = "com.middleshelf.myfirstapp.TEMPO";
-    public final static String MELODY_LENGTH = "com.middleshelf.myfirstapp.MELODY_LENGTH";
+    public final static String SCALE = "com.middleshelf.handsfreeeartrainer.SCALE";
+    public final static String TEMPO = "com.middleshelf.handsfreeeartrainer.TEMPO";
+    public final static String MELODY_LENGTH = "com.middleshelf.handsfreeeartrainer.MELODY_LENGTH";
     private SeekBar tempoControl = null;
     private TextView textView = null;
     private SeekBar melodyLengthSeekBar = null;

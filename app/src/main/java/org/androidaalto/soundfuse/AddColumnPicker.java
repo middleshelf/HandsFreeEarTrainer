@@ -29,7 +29,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import com.middleshelf.myfirstapp.R;
+import com.middleshelf.handsfreeeartrainer.R;
 
 
 public class AddColumnPicker extends Activity {

@@ -27,7 +27,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import com.middleshelf.myfirstapp.R;
+import com.middleshelf.handsfreeeartrainer.R;
 
 public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 

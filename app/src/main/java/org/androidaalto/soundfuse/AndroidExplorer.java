@@ -39,7 +39,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.middleshelf.myfirstapp.R;
+import com.middleshelf.handsfreeeartrainer.R;
 
 
 public class AndroidExplorer extends ListActivity {

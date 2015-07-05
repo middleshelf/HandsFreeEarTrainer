@@ -1,4 +1,4 @@
-package com.middleshelf.myfirstapp;
+package com.middleshelf.handsfreeeartrainer;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

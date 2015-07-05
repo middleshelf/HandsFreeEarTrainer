@@ -16,7 +16,7 @@
 
 package org.androidaalto.soundfuse.picker;
 
-import com.middleshelf.myfirstapp.R;
+import com.middleshelf.handsfreeeartrainer.R;
 
 import android.content.Context;
 import android.util.AttributeSet;

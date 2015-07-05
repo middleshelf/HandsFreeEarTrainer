@@ -42,7 +42,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
-import com.middleshelf.myfirstapp.R;
+import com.middleshelf.handsfreeeartrainer.R;
 
 
 public class BoardActivity extends Activity {
