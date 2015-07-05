@@ -38,6 +38,7 @@ public class DisplayMessageActivity extends Activity {
 		// Get the message from the intent
 	    Intent intent = getIntent();
 	    String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String scale = intent.getStringExtra(MainActivity.SCALE);
 
 	    // Create the text view
 	    TextView textView = new TextView(this);
@@ -89,19 +90,24 @@ public class DisplayMessageActivity extends Activity {
         int melodyLength = 7; //will be set by interface
         int[] randMelody = new int[melodyLength];
         Random generator = new Random();
-
-        if (message.equals("mp")) {
-            melody = majorPentatoic.clone();
-        } else if (message.equals("mip")) {
-            melody = minorPentatoic.clone();
-        } else if (message.equals("m")) {
-            melody = major.clone();
-        } else if (message.equals("mm")) {
-            melody = melodicMinor.clone();
-        } else if (message.equals("hm")) {
-            melody = harmonicMinor.clone();
-        } else {
-            melody = chromatic.clone();
+        try {
+            if (scale.equals("Major Pentatonic")) {
+                melody = majorPentatoic.clone();
+            } else if (scale.equals("Minor Pentatonic")) {
+                melody = minorPentatoic.clone();
+            } else if (scale.equals("Major")) {
+                melody = major.clone();
+            } else if (scale.equals("Melodic Minor")) {
+                melody = melodicMinor.clone();
+            } else if (scale.equals("Harmonic Minor")) {
+                melody = harmonicMinor.clone();
+            } else if (scale.equals("Chromatic")) {
+                melody = chromatic.clone();
+            } else {
+                melody = chromatic.clone();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         for (int i = 0; i < melodyLength; i++){
