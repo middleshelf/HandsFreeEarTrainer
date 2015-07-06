@@ -30,11 +30,14 @@ import java.util.Random;
 
 public class DisplayMessageActivity extends Activity {
     Sequencer sequencer;
+    HandsFreeEarTrainerUtilities HFUtilities = new HandsFreeEarTrainerUtilities();
     private String file = "exampleout.mid";
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private String answer;
     private TextView answerText = null;
     private FileDescriptor fileDescriptor = new FileDescriptor();
+    private int startingNote = 0;
+    private int octaveRange = 1;
 
     // Middle C is integer 60
     private static int[] majorPentatoic = {60,62,64,67,69,72};
@@ -55,6 +58,12 @@ public class DisplayMessageActivity extends Activity {
         String scale = intent.getStringExtra(MainActivity.SCALE);
         String tempo = intent.getStringExtra(MainActivity.TEMPO);
         String melodyLength = intent.getStringExtra(MainActivity.MELODY_LENGTH);
+        try{
+            octaveRange = Integer.parseInt(intent.getStringExtra(MainActivity.OCTAVE_RANGE));
+            startingNote = Integer.parseInt(intent.getStringExtra(MainActivity.STARTING_NOTE));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
 	    // Create the text view
         answerText = (TextView) findViewById(R.id.answerText);
@@ -117,11 +126,11 @@ public class DisplayMessageActivity extends Activity {
 
         for (int i = 0; i < mLength; i++){
             if (i==0 ){
-                randMelody[i] = 60;
-                answer = getNoteName(randMelody[i]) + " ";
+                randMelody[i] = 60 + startingNote;
+                answer = HFUtilities.getNoteName(randMelody[i]) + " ";
             } else {
-                randMelody[i] = melody[generator.nextInt(melody.length)];
-                answer = answer + (getNoteName(randMelody[i])) + " ";
+                randMelody[i] = generator.nextInt(octaveRange)*12 + melody[generator.nextInt(melody.length)];
+                answer = answer + (HFUtilities.getNoteName(randMelody[i])) + " ";
             }
         }
 
@@ -151,7 +160,7 @@ public class DisplayMessageActivity extends Activity {
         tracks.add(noteTrack);
         MidiFile midi = new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
 
-        // 4. Write the MIDI data to a file
+        // Write the MIDI data to a file
         File midiFile = new File(getFilesDir() + "/" +file);
         try
         {
@@ -161,7 +170,6 @@ public class DisplayMessageActivity extends Activity {
         {
             System.err.println(e);
         }
-
 
         //Play midi file
         playMidiFile();
@@ -202,63 +210,17 @@ public class DisplayMessageActivity extends Activity {
         }
     }
 
-    private String getNoteName(int note){
-        String noteName;
 
-        switch(note){
-            case(60):
-                noteName = "C";
-                break;
-            case(61):
-                noteName = "C#";
-                break;
-            case(62):
-                noteName = "D";
-                break;
-            case(63):
-                noteName = "Eb";
-                break;
-            case(64):
-                noteName = "E";
-                break;
-            case(65):
-                noteName = "F";
-                break;
-            case(66):
-                noteName = "F#";
-                break;
-            case(67):
-                noteName = "G";
-                break;
-            case(68):
-                noteName = "G#";
-                break;
-            case(69):
-                noteName = "A";
-                break;
-            case(70):
-                noteName = "Bb";
-                break;
-            case(71):
-                noteName = "B";
-                break;
-            case(72):
-                noteName = "C";
-                break;
-            default:
-                noteName = "C";
-        }
-
-        return noteName;
-    }
 
     public void submitAnswer(View view){
         EditText userAnswerText = (EditText) findViewById(R.id.submitAnswerText);
         String userAnswer = userAnswerText.getText().toString();
+        userAnswer.replaceAll("\\s+","");
 
-            //show correct
+        //show correct
+        //Removing all the whitespaces and comparing
             try{
-                if(userAnswer.trim().equals(answer.trim())) {
+                if (userAnswer.replaceAll("\\s+", "").equals(answer.replaceAll("\\s+",""))) {
                     answerText.setText("Correct!");
                 }else {
                     answerText.setText("Try again");

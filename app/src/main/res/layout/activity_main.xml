@@ -222,42 +222,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Octave Range"
+            android:id="@+id/octaveRangeTextView"
+            android:layout_column="0" />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/octaveRangeSeekBar"
+            android:layout_column="0"
+            android:max="5"
+            android:indeterminate="false"
+            android:progress="1"
+            android:onClick="setOctaveRange"
+            android:layout_span="5" />
     </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableRow>
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Starting Note"
+            android:id="@+id/startingNoteTextView"
+            android:layout_column="0" />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startingNoteSeekBar"
+            android:layout_column="0"
+            android:max="12"
+            android:indeterminate="false"
+            android:progress="0"
+            android:onClick="setStartingNote"
+            android:layout_span="5" />
     </TableRow>
 
 </TableLayout>

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import com.middleshelf.handsfreeeartrainer.HandsFreeEarTrainerUtilities;
 
 
 public class MainActivity extends Activity {
@@ -16,10 +17,18 @@ public class MainActivity extends Activity {
     public final static String SCALE = "com.middleshelf.handsfreeeartrainer.SCALE";
     public final static String TEMPO = "com.middleshelf.handsfreeeartrainer.TEMPO";
     public final static String MELODY_LENGTH = "com.middleshelf.handsfreeeartrainer.MELODY_LENGTH";
+    public final static String OCTAVE_RANGE = "com.middleshelf.handsfreeeartrainer.OCTAVE_RANGE";
+    public final static String STARTING_NOTE = "com.middleshelf.handsfreeeartrainer.STARTING_NOTE";
+
+    private HandsFreeEarTrainerUtilities HFUtilities = new HandsFreeEarTrainerUtilities();
     private SeekBar tempoControl = null;
     private TextView textView = null;
     private SeekBar melodyLengthSeekBar = null;
     private TextView melodyLengthTextView = null;
+    private SeekBar octaveRangeSeekBar = null;
+    private TextView octaveRangeTextView = null;
+    private SeekBar startingNoteSeekBar = null;
+    private TextView startingNoteTextView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +39,23 @@ public class MainActivity extends Activity {
         // Initialize the SeekBars with starting values
         textView.setText("Tempo: " + tempoControl.getProgress());
         melodyLengthTextView.setText("Melody Length: " + melodyLengthSeekBar.getProgress());
+        octaveRangeTextView.setText("Octave Range: " + octaveRangeSeekBar.getProgress());
+        startingNoteTextView.setText("Starting Note: " + HFUtilities.getNoteName(startingNoteSeekBar.getProgress()));
 
         tempoControl.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             int progress = 0;
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
                 //Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 //Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 textView.setText("Tempo: " + progress);
@@ -61,6 +75,37 @@ public class MainActivity extends Activity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 melodyLengthTextView.setText("Melody Length: " + progress);
+            }
+        });
+
+        octaveRangeSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progress = 1;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue + 1;
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                octaveRangeTextView.setText("Octave Range: " + progress);
+            }
+        });
+
+        startingNoteSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progress = 0;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String noteName = HFUtilities.getNoteName(progress);
+                startingNoteTextView.setText("Starting Note: " + noteName);
             }
         });
     }
@@ -83,6 +128,14 @@ public class MainActivity extends Activity {
             melodyLengthSeekBar = (SeekBar) findViewById(R.id.melodyLengthSeekBar);
         } if(melodyLengthTextView == null) {
             melodyLengthTextView = (TextView) findViewById(R.id.melodyLengthTextView);
+        } if(octaveRangeSeekBar == null) {
+            octaveRangeSeekBar = (SeekBar) findViewById(R.id.octaveRangeSeekBar);
+        } if(octaveRangeTextView == null) {
+            octaveRangeTextView = (TextView) findViewById(R.id.octaveRangeTextView);
+        } if(startingNoteSeekBar == null) {
+            startingNoteSeekBar = (SeekBar) findViewById(R.id.startingNoteSeekBar);
+        } if(startingNoteTextView == null) {
+            startingNoteTextView = (TextView) findViewById(R.id.startingNoteTextView);
         }
     }
 
@@ -136,6 +189,8 @@ public class MainActivity extends Activity {
         intent.putExtra(TEMPO, tempo);
         String melodyLength = Integer.toString(melodyLengthSeekBar.getProgress());
         intent.putExtra(MELODY_LENGTH, melodyLength);
+        intent.putExtra(OCTAVE_RANGE, Integer.toString(octaveRangeSeekBar.getProgress()));
+        intent.putExtra(STARTING_NOTE, Integer.toString(startingNoteSeekBar.getProgress()));
         startActivity(intent);
     }
 }
